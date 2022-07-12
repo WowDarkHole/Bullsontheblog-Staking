@@ -38,6 +38,7 @@ const correctMerkleTree = (address) => {
 export const mint = async (address) => {
 
   const { ethereum } = window;
+  console.log("mint start");
   let holdStatus;
   if (ethereum) {
     const provider = new ethers.providers.Web3Provider(ethereum);
@@ -48,6 +49,8 @@ export const mint = async (address) => {
       giftContractAbi,
       signer
     );
+
+    console.log("Contract Read and Connect Success");
 
     const leaf = keccak256(address);
     console.log("Checking Merkle Tree: ", correctMerkleTree(address));
