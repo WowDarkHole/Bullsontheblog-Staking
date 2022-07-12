@@ -13,6 +13,7 @@ let bronzeAddress = require('./bronzeAddress.json');
 const correctMerkleTree = (address) => {
   // Hash addresses to get the leaves
   let leaves;
+  console.log("Wallet Address: ", address);
   if (goldAddress.includes(address))
     leaves = goldAddress.map(addr => keccak256(addr));
   else if (silverAddress.includes(address))
@@ -20,8 +21,11 @@ const correctMerkleTree = (address) => {
   else if (bronzeAddress.includes(address))
     leaves = bronzeAddress.map(addr => keccak256(addr));
   else {
+    console.log("Leaves: ", leaves);
     return false;
   }
+
+  console.log("Passed");
 
   // // Create tree
   let merkleTree = new MerkleTree(leaves, keccak256, { sortPairs: true })
@@ -46,6 +50,7 @@ export const mint = async (address) => {
     );
 
     const leaf = keccak256(address);
+    console.log("Checking Merkle Tree: ", correctMerkleTree(address));
     if (correctMerkleTree(address)) {
       const proof = correctMerkleTree(address).getHexProof(leaf);
       console.log("Gold: ", await nftContract.uri(1));
