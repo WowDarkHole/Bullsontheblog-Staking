@@ -52,7 +52,7 @@ export default function Home() {
 
   const onMint = async () => {
     // const id = toast.loading("Please wait...");
-    await mint()
+    await mint(address)
     // toast.update(id, { render: "🦄 Sorry, You are not a NFT holder!", type: "error", isLoading: false, closeOnClick: true, draggable: true, autoClose: 3000 });
   }
 
