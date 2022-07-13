@@ -14,12 +14,18 @@ const correctMerkleTree = (address) => {
   // Hash addresses to get the leaves
   let leaves;
   console.log("Wallet Address: ", address);
-  if (goldAddress.includes(address))
+  if (goldAddress.includes(address)) {
     leaves = goldAddress.map(addr => keccak256(addr));
-  else if (silverAddress.includes(address))
+    console.log("Gold");
+  }
+  else if (silverAddress.includes(address)) {
     leaves = silverAddress.map(addr => keccak256(addr));
-  else if (bronzeAddress.includes(address))
+    console.log("silver");
+  }
+  else if (bronzeAddress.includes(address)) {
     leaves = bronzeAddress.map(addr => keccak256(addr));
+    console.log("bronze");
+  }
   else {
     console.log("Leaves: ", leaves);
     return false;
@@ -54,8 +60,11 @@ export const mint = async (address) => {
 
     const leaf = keccak256(address);
     console.log("Checking Merkle Tree: ", correctMerkleTree(address));
-    if (correctMerkleTree(address)) {
-      const proof = correctMerkleTree(address).getHexProof(leaf);
+    if (!!correctMerkleTree(address)) {
+      const checkMerkle = correctMerkleTree(address);
+      console.log("1");
+      const proof = checkMerkle.getHexProof(leaf);
+      console.log("2");
       console.log("Gold: ", await nftContract.uri(1));
       console.log("prooft:", proof)
       console.log("Check:", await nftContract.checkNftHolder(proof))
