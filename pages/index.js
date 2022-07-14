@@ -39,21 +39,51 @@ export default function Home() {
   }
   const onConnectWallet = async () => {
     if (window.ethereum) {
-      await window.ethereum.request({ method: 'eth_requestAccounts' })
-        .then(res => {
-          // Return the address of the wallet
-          setMetamask(true);
-          setAddress(res[0]);
-        })
+      if (!metamask) {
+        await window.ethereum.request({ method: 'eth_requestAccounts' })
+          .then(res => {
+            // Return the address of the wallet
+            setMetamask(true);
+            setAddress(res[0]);
+          })
+      } else {
+        console.log("disconnect!")
+        setMetamask(false);
+        setAddress("Connect Wallet");
+      }
     } else {
       notifyUnAvailable('Please install Metamask!')
     }
   }
 
+  // const onDisconnectWallet = () => {
+  //   await window.ethereum.request({
+  //     method: "eth_requestAccounts",
+  //     params: [{ eth_accounts: {} }]
+  //   })
+  // }
+
   const onMint = async () => {
-    // const id = toast.loading("Please wait...");
-    await mint(address)
-    // toast.update(id, { render: "🦄 Sorry, You are not a NFT holder!", type: "error", isLoading: false, closeOnClick: true, draggable: true, autoClose: 3000 });
+
+    if (metamask) {
+      const id = toast.loading("Please wait...");
+      const mint_status = await mint(address);
+      console.log("minted status:", mint_status);
+      switch (mint_status) {
+        case 0:
+          toast.update(id, { render: "🦄 Sorry, You are not a NFT holder!", type: "error", isLoading: false, closeOnClick: true, draggable: true, autoClose: 3000 });
+          return;
+        case 1:
+          toast.update(id, { render: "🦄 Sorry, There are issues in mint process. Please check your ether balance.", type: "error", isLoading: false, closeOnClick: true, draggable: true, autoClose: 3000 });
+          return;
+        case 2:
+          toast.update(id, { render: "🦄 Welcome, You succeed to mint NFT!", type: "success", isLoading: false, closeOnClick: true, draggable: true, autoClose: 3000 });
+          return;
+      }
+    } else {
+      notifyUnAvailable('Please connect your Metamask!')
+    }
+
   }
 
   const truncate = (input) =>

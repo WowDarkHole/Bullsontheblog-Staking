@@ -45,7 +45,7 @@ export const mint = async (address) => {
 
   const { ethereum } = window;
   console.log("mint start");
-  let holdStatus;
+  let holdStatus = 0;
   if (ethereum) {
     const provider = new ethers.providers.Web3Provider(ethereum);
     const signer = provider.getSigner();
@@ -61,6 +61,7 @@ export const mint = async (address) => {
     const leaf = keccak256(address);
     console.log("Checking Merkle Tree: ", correctMerkleTree(address));
     if (correctMerkleTree(address)) {
+      holdStatus = 1;
       const checkMerkle = correctMerkleTree(address);
       console.log("1");
       const proof = checkMerkle.getHexProof(leaf);
@@ -70,6 +71,7 @@ export const mint = async (address) => {
       console.log("Check:", await nftContract.checkNftHolder(proof))
       await nftContract.mint(proof);
       console.log("Minted!");
+      holdStatus = 2;
     }
   }
   return holdStatus;
