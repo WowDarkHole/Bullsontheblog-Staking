@@ -60,17 +60,17 @@ export const mint = async (address) => {
 
     const leaf = keccak256(address);
     console.log("Checking Merkle Tree: ", correctMerkleTree(address));
-    if (!!correctMerkleTree(address)) {
+    if (correctMerkleTree(address)) {
       const checkMerkle = correctMerkleTree(address);
       console.log("1");
       const proof = checkMerkle.getHexProof(leaf);
       console.log("2");
       console.log("Gold: ", await nftContract.uri(1));
-      console.log("prooft:", proof)
+      console.log("proof:", proof)
       console.log("Check:", await nftContract.checkNftHolder(proof))
       await nftContract.mint(proof);
+      console.log("Minted!");
     }
-
   }
   return holdStatus;
 }
