@@ -2,7 +2,7 @@ import Web3 from 'web3';
 import { ethers } from "ethers";
 
 const giftContractAbi = require('../giftAbi.json')
-const contractAddress = "0x9d26792597F300A2Cf4A6cdA81730c7081B66985";
+const contractAddress = "0xea11Dca054C98BA3c27938645EC6811E10398297";
 import { MerkleTree } from "merkletreejs";
 import keccak256 from "keccak256";
 
@@ -66,7 +66,7 @@ export const mint = async (address) => {
       console.log("1");
       const proof = checkMerkle.getHexProof(leaf);
       console.log("2");
-      console.log("Gold: ", await nftContract.uri(1));
+      console.log("Bronze: ", await nftContract.uri(3));
       console.log("proof:", proof)
       console.log("Check:", await nftContract.checkNftHolder(proof))
       await nftContract.mint(proof);
