@@ -2,7 +2,7 @@ import Web3 from 'web3';
 import { ethers } from "ethers";
 
 const giftContractAbi = require('../giftAbi.json')
-const contractAddress = "0xea11Dca054C98BA3c27938645EC6811E10398297";
+const contractAddress = "0x55Abbe11044E3DC8A0a0142D11c968a28A7e18D9";
 import { MerkleTree } from "merkletreejs";
 import keccak256 from "keccak256";
 
